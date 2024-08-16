@@ -1,6 +1,6 @@
 const express = require('express');
 const cors = require('cors');
-const mysql = require('mysql2/promise');
+const { Pool } = require('pg'); // Import PostgreSQL Pool
 const http = require('http');
 const { Server } = require('socket.io');
 
@@ -16,21 +16,23 @@ const io = new Server(server, {
 app.use(express.json());
 app.use(cors());
 
-// MySQL Connection Pool
-const pool = mysql.createPool({
-  host: 'localhost',
-  user: 'root',
-  password: 'Abc1234$',
-  database: 'users_db',
+// PostgreSQL Connection Pool
+const pool = new Pool({
+  host: process.env.SUPABASE_HOST,
+  user: process.env.SUPABASE_USER,
+  password: process.env.SUPABASE_PASSWORD,
+  database: process.env.SUPABASE_DATABASE,
+  port: process.env.SUPABASE_PORT || 5432,
+  ssl: { rejectUnauthorized: false },
 });
 
-
+// Routes
 app.post('/signup', async (req, res) => {
   const { firstName, lastName, email, password } = req.body;
 
   try {
-    const [result] = await pool.query(
-      `INSERT INTO users (firstName, lastName, email, password) VALUES (?, ?, ?, ?)`,
+    const result = await pool.query(
+      `INSERT INTO users (firstName, lastName, email, password) VALUES ($1, $2, $3, $4)`,
       [firstName, lastName, email, password]
     );
     res.status(201).send('User created');
@@ -44,12 +46,12 @@ app.post('/signin', async (req, res) => {
   const { email, password } = req.body;
 
   try {
-    const [rows] = await pool.query(
-      'SELECT * FROM users WHERE email = ? AND password = ?',
+    const result = await pool.query(
+      'SELECT * FROM users WHERE email = $1 AND password = $2',
       [email, password]
     );
 
-    if (rows.length > 0) {
+    if (result.rows.length > 0) {
       res.status(200).send('Sign-in successful');
     } else {
       res.status(401).send('Invalid email or password');
@@ -62,14 +64,13 @@ app.post('/signin', async (req, res) => {
 
 app.get('/products', async (req, res) => {
   try {
-    const [rows] = await pool.query('SELECT * FROM products');
-    res.json(rows);
+    const result = await pool.query('SELECT * FROM products');
+    res.json(result.rows);
   } catch (error) {
     console.error('Error fetching products: ', error);
     res.status(500).send('Error fetching products');
   }
 });
-
 
 const PORT = process.env.PORT || 5000;
 server.listen(PORT, () => {
