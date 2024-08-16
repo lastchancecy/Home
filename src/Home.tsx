@@ -24,7 +24,7 @@ export default function Home() {
   React.useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await fetch('https://my-backend-phi.vercel.app/products');
+        const response = await fetch('https://home-uwa6.onrender.com/products');
         const data = await response.json();
         setProducts(data);
       } catch (error) {
