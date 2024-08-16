@@ -19,12 +19,10 @@ app.use(cors());
 
 // PostgreSQL Connection Pool
 const pool = new Pool({
-  host: process.env.SUPABASE_HOST,
-  user: process.env.SUPABASE_USER,
-  password: process.env.SUPABASE_PASSWORD,
-  database: process.env.SUPABASE_DATABASE,
-  port: process.env.SUPABASE_PORT || 5432,
-  ssl: { rejectUnauthorized: false },
+  host: 'localhost', 
+  user: 'root', 
+  password: 'Abc1234$', 
+  database: 'users_db' 
 });
 
 // Routes
