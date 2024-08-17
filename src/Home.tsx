@@ -33,7 +33,7 @@ export default function Home() {
   React.useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await fetch('http://localhost:5000/products');
+        const response = await fetch('https://home-1-pka0.onrender.com/products');
         const data = await response.json();
         setProducts(data);
       } catch (error) {

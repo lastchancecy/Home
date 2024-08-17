@@ -44,7 +44,7 @@ export default function SignUp() {
     };
 
     try {
-      const response = await fetch('http://localhost:5000/signup', {
+      const response = await fetch('https://home-1-pka0.onrender.com/signup', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
