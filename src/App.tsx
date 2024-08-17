@@ -5,6 +5,7 @@ import SignIn from './SignIn';
 import SignUp from './SignUp';
 import Home from './Home';
 import Checkout from './checkout'; // Make sure to import the Checkout component
+import Profile from './Profile';
 
 const App: React.FC = () => {
   return (
@@ -15,6 +16,7 @@ const App: React.FC = () => {
           <Route path="/signup" element={<SignUp />} />
           <Route path="/signin" element={<SignIn />} />
           <Route path="/checkout/:id" element={<Checkout />} />
+          <Route path="/profile"element={<Profile />} />
         </Routes>
       </Router>
     </div>

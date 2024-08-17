@@ -44,3 +44,21 @@
     transform: rotate(360deg);
   }
 }
+.signin-container {
+  background-image: url('https://img.freepik.com/free-vector/gradient-blur-pink-blue-abstract-background_53876-117324.jpg?w=900&t=st=1675188227~exp=1675188827~hmac=46e28bebc82abe965c3310ec23e2a551abbe1a63dc203e920773f30300c5855c');
+  background-size: cover;
+  background-position: center;
+  min-height: 100vh; /* Ensure the background covers the full viewport height */
+  display: flex;
+  align-items: center; /* Center content vertically */
+  justify-content: center; /* Center content horizontally */
+}
+.signup-container {
+  background-image: url('https://img.freepik.com/free-vector/gradient-blur-pink-blue-abstract-background_53876-117324.jpg?w=900&t=st=1675188227~exp=1675188827~hmac=46e28bebc82abe965c3310ec23e2a551abbe1a63dc203e920773f30300c5855c');
+  background-size: cover;
+  background-position: center;
+  min-height: 100vh; /* Ensure the background covers the full viewport height */
+  display: flex;
+  align-items: center; /* Center content vertically */
+  justify-content: center; /* Center content horizontally */
+}

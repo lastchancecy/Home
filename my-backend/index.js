@@ -11,6 +11,7 @@ const io = new Server(server, {
   cors: {
     origin: '*',
     methods: ['GET', 'POST'],
+    credentials: true,
   },
 });
 
@@ -19,10 +20,12 @@ app.use(cors());
 
 // PostgreSQL Connection Pool
 const pool = new Pool({
-  host: 'localhost', 
-  user: 'root', 
-  password: 'Abc1234$', 
-  database: 'users_db' 
+  host: process.env.SUPABASE_HOST,
+  user: process.env.SUPABASE_USER,
+  password: process.env.SUPABASE_PASSWORD,
+  database: process.env.SUPABASE_DATABASE,
+  port: process.env.SUPABASE_PORT || 5432,
+  ssl: { rejectUnauthorized: false },
 });
 
 // Routes
@@ -31,7 +34,7 @@ app.post('/signup', async (req, res) => {
 
   try {
     const result = await pool.query(
-      `INSERT INTO users (firstName, lastName, email, password) VALUES ($1, $2, $3, $4)`,
+      'INSERT INTO users (firstName, lastName, email, password) VALUES ($1, $2, $3, $4)',
       [firstName, lastName, email, password]
     );
     res.status(201).send('User created');
@@ -72,6 +75,6 @@ app.get('/products', async (req, res) => {
 });
 
 const PORT = process.env.PORT || 5000;
-server.listen(PORT, () => {
+app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
