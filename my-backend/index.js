@@ -49,20 +49,25 @@ app.post('/signin', async (req, res) => {
 
   try {
     const result = await pool.query(
-      'SELECT * FROM users WHERE email = $1 AND password = $2',
+      'SELECT id FROM users WHERE email = $1 AND password = $2',
       [email, password]
     );
 
     if (result.rows.length > 0) {
-      res.status(200).send('Sign-in successful');
+      const user = result.rows[0];
+
+      // Return a JSON response with userId and a success message
+      res.status(200).json({ userId: user.id, message: 'Sign-in successful' });
     } else {
-      res.status(401).send('Invalid email or password');
+      res.status(401).json({ message: 'Invalid email or password' });
     }
   } catch (error) {
     console.error('Error during sign-in: ', error);
-    res.status(500).send('Error during sign-in');
+    res.status(500).json({ message: 'Error during sign-in' });
   }
 });
+
+
 
 app.get('/products', async (req, res) => {
   try {
@@ -71,6 +76,27 @@ app.get('/products', async (req, res) => {
   } catch (error) {
     console.error('Error fetching products: ', error);
     res.status(500).send('Error fetching products');
+  }
+});
+
+app.get('/profile/:userId', async (req, res) => {
+  const { userId } = req.params;
+
+  try {
+    const result = await pool.query(
+      'SELECT firstname, lastname, email FROM users WHERE id = $1',
+      [userId]
+    );
+
+    if (result.rows.length > 0) {
+      const user = result.rows[0];
+      res.status(200).json(user);
+    } else {
+      res.status(404).json({ message: 'User not found' });
+    }
+  } catch (error) {
+    console.error('Error fetching user profile: ', error);
+    res.status(500).json({ message: 'Error fetching user profile' });
   }
 });
 

@@ -1,19 +1,8 @@
 import React from 'react';
-import {
-  Grid,
-  Card,
-  CardContent,
-  CardMedia,
-  Typography,
-  CardActionArea,
-  BottomNavigation,
-  BottomNavigationAction,
-} from '@mui/material';
-import { useNavigate } from 'react-router-dom';
+import { Grid, Card, CardContent, CardMedia, Typography, CardActionArea } from '@mui/material';
 import SearchBar from './SearchBar';
-import HomeIcon from '@mui/icons-material/Home';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import PersonIcon from '@mui/icons-material/Person';
+import Layout from './Layout'; // Import Layout
+import { useNavigate } from 'react-router-dom'; // Import useNavigate
 
 interface Product {
   id: number;
@@ -28,12 +17,12 @@ export default function Home() {
   const [products, setProducts] = React.useState<Product[]>([]);
   const [searchTerm, setSearchTerm] = React.useState<string>('');
   const [value, setValue] = React.useState<number>(0);
-  const navigate = useNavigate();
+  const navigate = useNavigate(); // Declare navigate using useNavigate
 
   React.useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await fetch('https://home-1-pka0.onrender.com/products');
+        const response = await fetch('http://localhost:5000/products');
         const data = await response.json();
         setProducts(data);
       } catch (error) {
@@ -45,7 +34,7 @@ export default function Home() {
   }, []);
 
   const handleBuyNow = (product: Product) => {
-    navigate(`/checkout/${product.id}`);
+    navigate(`/checkout/${product.id}`); // Use navigate for redirection
   };
 
   const handleSearch = () => {
@@ -57,7 +46,7 @@ export default function Home() {
   );
 
   return (
-    <>
+    <Layout> {/* Wrap content with Layout */}
       <SearchBar
         value={searchTerm}
         onChange={(newValue) => setSearchTerm(newValue)}
@@ -131,23 +120,6 @@ export default function Home() {
           </Grid>
         ))}
       </Grid>
-      <BottomNavigation
-        showLabels
-        value={value}
-        onChange={(event, newValue) => {
-          setValue(newValue);
-          if (newValue === 2) {
-            navigate('/profile');
-          } else if (newValue === 0) {
-            navigate('/');
-          }
-        }}
-        sx={{ width: '100%', position: 'fixed', bottom: 0 }}
-      >
-        <BottomNavigationAction label="Home" icon={<HomeIcon />} />
-        <BottomNavigationAction label="Orders" icon={<ShoppingCartIcon />} />
-        <BottomNavigationAction label="Account" icon={<PersonIcon />} />
-      </BottomNavigation>
-    </>
+    </Layout>
   );
 }

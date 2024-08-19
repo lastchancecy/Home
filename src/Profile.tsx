@@ -1,73 +1,95 @@
 import React, { useEffect, useState } from 'react';
+import { Container, Card, CardContent, CardHeader, Typography, Avatar, Divider, Box, Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
+import Layout from './Layout'; // Import Layout
 
-interface UserProfile {
-  id: number;
-  firstName: string;
-  lastName: string;
-  email: string;
-}
-
-export default function Profile() {
-  const navigate = useNavigate();
-  const [profile, setProfile] = useState<UserProfile | null>(null);
+const Profile: React.FC = () => {
+  const [user, setUser] = useState<{ firstname: string; lastname: string; email: string } | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+  const navigate = useNavigate();
+  const userId = Cookies.get('userId');
 
   useEffect(() => {
-    const fetchProfile = async () => {
-      const sessionToken = Cookies.get('sessionToken');
+    if (!userId) {
+      navigate('/signin');
+      return;
+    }
 
-      if (!sessionToken) {
-        navigate('/signup');
-        return;
-      }
-
+    const fetchUserProfile = async () => {
       try {
-        const response = await fetch('http://localhost:5000/profile', {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          credentials: 'include', // Ensure cookies are sent with the request
-        });
+        const response = await fetch(`http://localhost:5000/profile/${userId}`);
 
-        if (response.ok) {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+
+        const contentType = response.headers.get('Content-Type');
+        if (contentType && contentType.includes('application/json')) {
           const data = await response.json();
-          setProfile(data);
+          setUser(data);
         } else {
-          navigate('/signup');
+          throw new Error('Unexpected content type');
         }
       } catch (error) {
-        console.error('Error fetching profile:', error);
-        navigate('/signup');
+        console.error('Error fetching user profile:', error);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchProfile();
-  }, [navigate]);
+    fetchUserProfile();
+  }, [userId, navigate]);
 
   const handleSignOut = () => {
-    Cookies.remove('sessionToken'); // Remove session token
-    navigate('/home'); // Redirect to home page
+    Cookies.remove('userId');
+    navigate('/signin');
   };
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) {
+    return <Typography variant="h6">Loading...</Typography>;
+  }
+
+  if (error) {
+    return <Typography variant="h6" color="error">{`Error: ${error}`}</Typography>;
+  }
+
+  if (!user) {
+    return <Typography variant="h6">User not found</Typography>;
+  }
 
   return (
-    <div>
-      {profile ? (
-        <div>
-          <h1>Profile Page</h1>
-          <p>Name: {profile.firstName} {profile.lastName}</p>
-          <p>Email: {profile.email}</p>
-          <button onClick={handleSignOut}>Sign Out</button>
-        </div>
-      ) : (
-        <p>No profile information available.</p>
-      )}
-    </div>
+    <Layout> {/* Wrap content with Layout */}
+      <div className="signin-container">
+        <Container component="main" maxWidth="sm" sx={{ mt: 4, mb: 4 }}>
+          <Card elevation={3} sx={{ borderRadius: 2 }}>
+            <CardHeader
+              avatar={
+                <Avatar sx={{ bgcolor: '#3f51b5' }}>
+                  {user.firstname[0]}{user.lastname[0]}
+                </Avatar>
+              }
+              title={`${user.firstname} ${user.lastname}`}
+              subheader={user.email}
+              sx={{ textAlign: 'center' }}
+            />
+            <Divider />
+            <CardContent>
+              <Typography variant="body1" color="textSecondary">
+                Welcome to your profile! Here you can find and update your personal information.
+              </Typography>
+              <Box sx={{ mt: 2, display: 'flex', justifyContent: 'center' }}>
+                <Button variant="contained" color="primary" onClick={handleSignOut}>
+                  Sign Out
+                </Button>
+              </Box>
+            </CardContent>
+          </Card>
+        </Container>
+      </div>
+    </Layout>
   );
-}
+};
+
+export default Profile;

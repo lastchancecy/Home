@@ -4,8 +4,6 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
@@ -13,6 +11,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import Cookies from 'js-cookie'; // Import Cookies
 
 function Copyright(props: any) {
   return (
@@ -41,7 +40,7 @@ export default function SignIn() {
     };
 
     try {
-      const response = await fetch('https://home-1-pka0.onrender.com/signin', {
+      const response = await fetch('http://localhost:5000/signin', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -50,8 +49,10 @@ export default function SignIn() {
       });
 
       if (response.ok) {
-        console.log('Sign-in successful');
-        navigate('/home'); // Navigate to the home page after successful sign-in
+        const result = await response.json();
+        Cookies.set('userId', result.userId); // Save user ID in cookies
+        console.log('User ID saved in cookies:', Cookies.get('userId'));
+        navigate('/profile'); // Navigate to the profile page
       } else {
         alert('Invalid email or password');
       }
@@ -74,6 +75,16 @@ export default function SignIn() {
               alignItems: 'center',
             }}
           >
+            {/* Link to the right side */}
+            <Box sx={{ width: '100%', display: 'flex', justifyContent: 'flex-end', mb: 2 }}>
+              <Link
+                href="/Home" // Redirects to home.tsx
+                underline="hover"
+                sx={{ color: 'grey.600' }} // Grey color
+              >
+                Skip
+              </Link>
+            </Box>
             <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
               <LockOutlinedIcon />
             </Avatar>
@@ -100,10 +111,6 @@ export default function SignIn() {
                 type="password"
                 id="password"
                 autoComplete="current-password"
-              />
-              <FormControlLabel
-                control={<Checkbox value="remember" color="primary" />}
-                label="Remember me"
               />
               <Button
                 type="submit"
