@@ -13,6 +13,7 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Cookies from 'js-cookie'; // Import Cookies
 
+
 function Copyright(props: any) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
@@ -77,13 +78,15 @@ export default function SignIn() {
           >
             {/* Link to the right side */}
             <Box sx={{ width: '100%', display: 'flex', justifyContent: 'flex-end', mb: 2 }}>
-              <Link
-                href="/Home" // Redirects to home.tsx
-                underline="hover"
-                sx={{ color: 'grey.600' }} // Grey color
-              >
-                Skip
-              </Link>
+              
+            <Button
+                component="a"
+                href="/Home"
+                variant="text"
+                color="primary"
+                style={{ textTransform: 'none', fontSize: 'inherit', padding: 0, minWidth: 'auto',color: 'gray'  }}
+                >{"Skip"}
+                </Button>
             </Box>
             <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
               <LockOutlinedIcon />
@@ -127,9 +130,14 @@ export default function SignIn() {
                   </Link>
                 </Grid>
                 <Grid item>
-                  <Link href="/signup" variant="body2">
-                    {"Don't have an account? Sign Up"}
-                  </Link>
+                <Button
+                component="a"
+                href="/signup"
+                variant="text"
+                color="primary"
+                style={{ textTransform: 'none', fontSize: 'inherit', padding: 0, minWidth: 'auto' }}
+                >{"Don't have an account? Sign Up"}
+                </Button>
                 </Grid>
               </Grid>
             </Box>

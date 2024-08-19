@@ -65,8 +65,26 @@ export default function SignUp() {
 
   return (
     <ThemeProvider theme={defaultTheme}>
-      {/* Wrap the content in a div with the signup-container class */}
       <div className="signup-container">
+        {/* Skip button positioned at the top-right */}
+        <Box
+          sx={{
+            position: 'fixed',
+            top: 16,
+            right: 16,
+            zIndex: 1201, // Ensures it is above other content
+          }}
+        >
+          <Button
+            component="a"
+            href="/home"
+            variant="text"
+            color="primary"
+            style={{ textTransform: 'none', fontSize: 'inherit', padding: 0, minWidth: 'auto', color: 'gray' }}
+          >
+            {"Skip"}
+          </Button>
+        </Box>
         <Container component="main" maxWidth="xs">
           <CssBaseline />
           <Box
@@ -83,6 +101,7 @@ export default function SignUp() {
             <Typography component="h1" variant="h5">
               Sign up
             </Typography>
+            
             <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
               <Grid container spacing={2}>
                 <Grid item xs={12} sm={6}>
@@ -144,9 +163,15 @@ export default function SignUp() {
               </Button>
               <Grid container justifyContent="flex-end">
                 <Grid item>
-                  <Link href="/signin" variant="body2">
-                    Already have an account? Sign in
-                  </Link>
+                  <Button
+                    component="a"
+                    href="/signup"
+                    variant="text"
+                    color="primary"
+                    style={{ textTransform: 'none', fontSize: 'inherit', padding: 0, minWidth: 'auto' }}
+                  >
+                    {"Already have an account? Sign in"}
+                  </Button>
                 </Grid>
               </Grid>
             </Box>
