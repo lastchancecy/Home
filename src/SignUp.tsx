@@ -77,7 +77,7 @@ export default function SignUp() {
         >
           <Button
             component="a"
-            href="/home"
+            href="/Home"
             variant="text"
             color="primary"
             style={{ textTransform: 'none', fontSize: 'inherit', padding: 0, minWidth: 'auto', color: 'gray' }}

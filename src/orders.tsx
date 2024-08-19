@@ -1,1 +1,1 @@
-<h1>No orders fot now</h1>
+<h1>No orders for now</h1>
