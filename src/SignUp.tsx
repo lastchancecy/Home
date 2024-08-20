@@ -44,7 +44,7 @@ export default function SignUp() {
     };
 
     try {
-      const response = await fetch('http://localhost:5000/signup', {
+      const response = await fetch(process.env.REACT_APP_API + 'signup', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -61,6 +61,10 @@ export default function SignUp() {
     } catch (error) {
       console.error('Error:', error);
     }
+
+  };
+  const handlesignup = () => {
+    navigate('/signin');
   };
 
   return (
@@ -165,7 +169,7 @@ export default function SignUp() {
                 <Grid item>
                   <Button
                     component="a"
-                    href="/signup"
+                    onClick={handlesignup}
                     variant="text"
                     color="primary"
                     style={{ textTransform: 'none', fontSize: 'inherit', padding: 0, minWidth: 'auto' }}

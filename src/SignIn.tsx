@@ -41,7 +41,7 @@ export default function SignIn() {
     };
 
     try {
-      const response = await fetch('http://localhost:5000/signin', {
+      const response = await fetch(process.env.REACT_APP_API + 'signin', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -61,6 +61,10 @@ export default function SignIn() {
       console.error('Error:', error);
       alert('An error occurred during sign-in');
     }
+
+  };
+  const handleSignIn = () => {
+    navigate('/signup');
   };
 
   return (
@@ -77,16 +81,23 @@ export default function SignIn() {
             }}
           >
             {/* Link to the right side */}
-            <Box sx={{ width: '100%', display: 'flex', justifyContent: 'flex-end', mb: 2 }}>
-              
+            <Box
+          sx={{
+            position: 'fixed',
+            top: 16,
+            right: 16,
+            zIndex: 1201, // Ensures it is above other content
+          }}
+        >              
             <Button
-                component="a"
-                href="/Home"
-                variant="text"
-                color="primary"
-                style={{ textTransform: 'none', fontSize: 'inherit', padding: 0, minWidth: 'auto',color: 'gray'  }}
-                >{"Skip"}
-                </Button>
+            component="a"
+            href="/Home"
+            variant="text"
+            color="primary"
+            style={{ textTransform: 'none', fontSize: 'inherit', padding: 0, minWidth: 'auto', color: 'gray' }}
+          >
+            {"Skip"}
+          </Button>
             </Box>
             <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
               <LockOutlinedIcon />
@@ -132,7 +143,7 @@ export default function SignIn() {
                 <Grid item>
                 <Button
                 component="a"
-                href="/signup"
+                onClick={handleSignIn}
                 variant="text"
                 color="primary"
                 style={{ textTransform: 'none', fontSize: 'inherit', padding: 0, minWidth: 'auto' }}

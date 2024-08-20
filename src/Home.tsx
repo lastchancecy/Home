@@ -22,8 +22,10 @@ export default function Home() {
   React.useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await fetch('http://localhost:5000/products');
+        const response = await fetch(process.env.REACT_APP_API + 'products');
         const data = await response.json();
+        console.log('Fetched products:', data); // Check fetched products
+
         setProducts(data);
       } catch (error) {
         console.error('Error fetching products:', error);
@@ -34,6 +36,8 @@ export default function Home() {
   }, []);
 
   const handleBuyNow = (product: Product) => {
+    console.log('Navigating to checkout with product ID:', product.id); // Check product ID
+
     navigate(`/checkout/${product.id}`); // Use navigate for redirection
   };
 

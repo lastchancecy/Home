@@ -19,7 +19,7 @@ const Profile: React.FC = () => {
 
     const fetchUserProfile = async () => {
       try {
-        const response = await fetch(`http://localhost:5000/profile/${userId}`);
+        const response = await fetch(process.env.REACT_APP_API + `profile/${userId}`);
 
         if (!response.ok) {
           throw new Error('Network response was not ok');

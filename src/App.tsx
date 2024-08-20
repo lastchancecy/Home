@@ -6,6 +6,9 @@ import SignUp from './SignUp';
 import Home from './Home';
 import Checkout from './checkout'; // Make sure to import the Checkout component
 import Profile from './Profile';
+import Confirmation from './confirmation';
+import Orders from './orders';
+
 
 const App: React.FC = () => {
   return (
@@ -17,6 +20,9 @@ const App: React.FC = () => {
           <Route path="/signin" element={<SignIn />} />
           <Route path="/checkout/:id" element={<Checkout />} />
           <Route path="/profile"element={<Profile />} />
+          <Route path="/confirmation"element={<Confirmation />} />
+          <Route path="/orders"element={<Orders />} />
+
         </Routes>
       </Router>
     </div>
