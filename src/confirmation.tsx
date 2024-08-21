@@ -11,7 +11,7 @@ const Confirmation = () => {
   };
 
   return (
-    <div className="signin-container"> {/* Apply the new CSS class here */}
+    <div className="confirmation-container"> {/* Apply the new CSS class here */}
     <Layout>
 <Container component="main" maxWidth="xs" sx={{ mt: 8, mb: 8 }}>
   

@@ -176,7 +176,7 @@ app.get('/orders/user/:userId', async (req, res) => {
        JOIN 
          products p ON o.product_id = p.id
        WHERE 
-         o.user_id = $1`,
+         o.user_id = $1 and o.active = 0`,
       [userId]
     );
     res.json(result.rows);
@@ -236,7 +236,22 @@ app.delete('/orders/:orderId', async (req, res) => {
   }
 });
 
+app.put('/orders/:orderId/receive', async (req, res) => {
+  const { orderId } = req.params;
 
+  try {
+    const result = await pool.query('UPDATE orders SET active = 0 WHERE id = $1 RETURNING *', [orderId]);
+
+    if (result.rowCount > 0) {
+      res.json({ message: 'Order marked as received', updatedOrder: result.rows[0] });
+    } else {
+      res.status(404).json({ message: 'Order not found' });
+    }
+  } catch (error) {
+    console.error('Error updating order status:', error);
+    res.status(500).json({ message: 'Error updating order status' });
+  }
+});
 
 
 

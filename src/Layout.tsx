@@ -16,15 +16,18 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
       case '/profile':
         setValue(2);
         break;
-      case '/':
+      case '/Home':
         setValue(0);
+        break;
+      case '/orders':  // Add this case for orders
+        setValue(1);
         break;
       default:
         setValue(0);
         break;
     }
   }, [location.pathname]);
-
+  
   return (
     <>
       <main>{children}</main>

@@ -2,8 +2,7 @@
   background-image: url('https://img.freepik.com/free-vector/gradient-blur-pink-blue-abstract-background_53876-117324.jpg?w=900&t=st=1675188227~exp=1675188827~hmac=46e28bebc82abe965c3310ec23e2a551abbe1a63dc203e920773f30300c5855c');
   background-size: cover;
   background-position: center;
-  min-height: 104vh; /* Ensures the background covers at least the full viewport height */
-  height: auto;
+  min-height: 100vh; /* Ensures the background covers at least the full viewport height */
   margin: 0;
   padding: 0;
   flex-direction: column; 
@@ -48,7 +47,7 @@
   background-image: url('https://img.freepik.com/free-vector/gradient-blur-pink-blue-abstract-background_53876-117324.jpg?w=900&t=st=1675188227~exp=1675188827~hmac=46e28bebc82abe965c3310ec23e2a551abbe1a63dc203e920773f30300c5855c');
   background-size: cover;
   background-position: center;
-  min-height: 100vh; /* Ensure the background covers the full viewport height */
+  min-height: 110vh; /* Ensure the background covers the full viewport height */
   display: flex;
   justify-content: center; /* Center content horizontally */
 }
@@ -69,4 +68,24 @@
   display: flex;
   align-items: center; /* Center content vertically */
   justify-content: center; /* Center content horizontally */
+}
+.confirmation-container {
+  background-image: url('https://img.freepik.com/free-vector/gradient-blur-pink-blue-abstract-background_53876-117324.jpg?w=900&t=st=1675188227~exp=1675188827~hmac=46e28bebc82abe965c3310ec23e2a551abbe1a63dc203e920773f30300c5855c');
+  background-size: cover;
+  background-position: center;
+  height: 110vh; /* Ensure it covers the full viewport height */
+  display: flex;
+  justify-content: center; /* Center content horizontally */
+  align-items: center; /* Center content vertically */
+  margin: 0; /* Ensure no extra margin is added */
+  overflow: hidden; /* Prevent overflow and scrolling */
+}
+.home-container{
+  background-image: url('https://img.freepik.com/free-vector/gradient-blur-pink-blue-abstract-background_53876-117324.jpg?w=900&t=st=1675188227~exp=1675188827~hmac=46e28bebc82abe965c3310ec23e2a551abbe1a63dc203e920773f30300c5855c');
+  background-size: cover;
+  background-position: center;
+  min-height: 145vh; /* Ensures the background covers at least the full viewport height */
+  margin: 0;
+  padding: 0;
+  flex-direction: column; 
 }
